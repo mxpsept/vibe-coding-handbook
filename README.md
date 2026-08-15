@@ -2,255 +2,153 @@
 
 > 从模糊业务想法到可验证、可部署、可持续演进的软件系统。
 
-## 1. 项目定位
+`vibe-coding-handbook` 面向已经或准备使用 Codex、Claude Code、Cursor、Gemini CLI 等 Coding Agent 的工程师与企业团队。重点不是“写更长的 Prompt”，而是建立一套让 AI **在明确业务事实、设计规范、架构边界和验证证据下工作**的软件工程方法。
 
-`vibe-coding-handbook` 是一套面向企业软件开发的 AI Native
-实践手册。它不把重点放在"如何写一个更长的
-Prompt"，而是建立一套可复用的软件工程流程，使 ChatGPT、Codex、Claude
-Code、Cursor、Gemini CLI 等 AI
-工具在明确的业务、设计、架构和验证约束下工作。
+## Start Here
 
-目标读者：
+第一次进入仓库，请先阅读 **[START-HERE.md](START-HERE.md)**。
 
--   软件工程师、架构师、技术负责人；
--   已经使用 AI Coding，但经常遇到需求漂移、UI
-    不稳定、代码越改越乱等问题的开发者；
--   希望在企业团队中建立 AI 辅助研发规范的人；
--   希望从"Vibe Coding"进一步走向 Spec-Driven / Artifact-Driven /
-    Verification-Driven Development 的团队。
+你可以按真实问题进入，而不是强制顺序阅读：
 
-## 2. 核心问题
+| 场景 | 推荐入口 |
+| --- | --- |
+| 从零开发新系统 | `START-HERE.md` → Greenfield 路线 |
+| 修改已有系统 | `handbook/13-brownfield/` |
+| 排查 Bug | `handbook/14-debugging/` |
+| 使用 Codex 开发 | `handbook/15-agent-governance/` + `templates/agent/` |
+| 重构 / 升级 | `handbook/16-refactoring/` + `handbook/17-migration/` |
+| 多 Agent 协作 | `handbook/18-multi-agent/` |
+| AI Code Review | `handbook/19-code-review/` |
+| 生产上线 | `handbook/21-security/` → `24-observability/` |
+| 企业推广 | `handbook/27-metrics/` → `29-maturity/` |
+| 查找模板/术语/完整流程 | `handbook/30-reference/` |
 
-本手册围绕一个问题展开：
+## 为什么需要这本手册
 
-> 当我们只有一个模糊的软件想法，甚至不知道 UI 应该长什么样时，如何利用
-> AI，把想法逐步转化为真正可以上线的软件？
+最危险的 Vibe Coding 流程是：
 
-本手册不推荐：
-
-``` text
-Idea → Prompt → Code
+```text
+Idea → Prompt → Code → “看起来能用”
 ```
 
-推荐：
+本手册推荐：
 
-``` text
-Idea
- ↓
-Discovery
- ↓
-Specification
- ↓
-Product Design
- ↓
-UI/UX Design
- ↓
-Architecture
- ↓
-Planning
- ↓
-Build
- ↓
-Verification
- ↓
-Ship
- ↓
-Feedback
- ↓
-Next Specification
+```text
+Intent
+↓
+Discovery / Evidence
+↓
+Requirements & Business Rules
+↓
+Product / UI Design
+↓
+Architecture & Contracts
+↓
+Bounded Agent Task
+↓
+Implementation
+↓
+Verification Evidence
+↓
+Independent Review
+↓
+Production Readiness
+↓
+Release / Observability
+↓
+Feedback → Next Specification
 ```
 
-## 3. 核心原则
+## 核心原则
 
-### 3.1 Human defines intent
+1. **Human defines intent** — 人负责目标、价值判断、关键决策和最终责任。
+2. **Artifacts define truth** — 重要业务、设计和架构事实不能只存在聊天记录。
+3. **AI executes within constraints** — Agent 必须知道 Scope、Non-goals、Stop Conditions 和权限。
+4. **Verification closes the loop** — “AI 说完成了”不是 Definition of Done。
+5. **Production evidence feeds the next decision** — 软件上线不是工程闭环的终点。
 
-人负责目标、价值判断、关键决策和最终验收。
+## 贯穿案例：FlowOps
 
-### 3.2 Spec defines truth
+全书使用完全虚构的 **FlowOps — 企业任务督办与协同管理平台**。
 
-重要需求和决策不能只存在聊天记录中。经确认的 Artifact 才是 Project
-Truth。
+它从一句模糊需求开始：
 
-### 3.3 AI executes within constraints
+> 建设一套重点任务督办系统，统一管理重点工作，明确责任、跟踪进度、识别临期超期，并帮助管理者掌握整体执行情况。
 
-AI 是强大的研究者、设计协作者、实现者、Reviewer
-和测试协作者，但不应在缺乏约束时自行决定企业系统的核心业务规则。
+FlowOps 会经历 Discovery、Requirement、业务建模、UI/UX、Architecture、Coding Agent、Testing、Brownfield Change、Release 与 Production Feedback。案例不使用任何真实企业名称、人员、数据、内部截图或专有业务资料。
 
-### 3.4 Verification closes the loop
+## 仓库结构
 
-"AI 说完成了"不等于完成。代码、UI、接口、测试和 Acceptance Criteria
-都需要可验证证据。
-
-### 3.5 Chat is temporary; Artifacts persist
-
-``` text
-Conversation
-    ↓
-Decision
-    ↓
-Artifact
-    ↓
-Git
-    ↓
-Project Truth
-```
-
-## 4. 全生命周期模型
-
-本手册采用：
-
-> **Idea → Discovery → Spec → Design → Architecture → Plan → Build →
-> Verify → Ship → Iterate**
-
-并进一步引入：
-
--   Product Discovery
--   Specification Driven Development
--   Artifact Driven Development
--   Context Engineering
--   Design System
--   Architecture Decision Records
--   Contract First API
--   Agentic Coding Workflow
--   Verification Engineering
--   Human-in-the-loop
--   AI Native Application Engineering
-
-## 5. 贯穿案例：FlowOps
-
-全书使用完全虚构的企业案例：
-
-> **FlowOps --- 企业任务督办与协同管理平台**
-
-背景：
-
-某中大型企业长期通过
-Excel、即时通讯、邮件和线下会议管理重点任务，逐渐出现任务来源分散、责任边界模糊、办理进度难跟踪、临期超期发现不及时、管理者缺乏整体视图等问题。
-
-项目从一句模糊需求开始：
-
-> 希望建设一套重点任务督办系统，把重点工作统一管理起来，明确责任、跟踪进度、自动提醒临期和超期事项，并帮助管理者掌握整体执行情况。
-
-手册不会提前把完整答案交给读者，而是陪同 FlowOps 依次经历
-Discovery、PRD、业务建模、IA、User Flow、Wireframe、Design
-System、Architecture、Coding、Testing 和 Production。
-
-FlowOps 不使用任何真实企业名称、人员、数据、内部系统截图或专有业务资料。
-
-## 6. Handbook 组成
-
-``` text
+```text
 vibe-coding-handbook/
-├── handbook/       # 方法论和完整教程
-├── templates/      # PRD、ADR、Feature Spec 等模板
-├── prompts/        # 分阶段 AI Prompt
-├── checklists/     # Quality Gate 检查表
-├── examples/       # FlowOps 等案例产物
-├── resources/      # 学习路线和外部资源
-└── assets/         # 图、截图、示意图
+├── START-HERE.md       # 场景化入口
+├── handbook/           # 方法论与完整教程
+├── templates/          # 可复制工程 Artifact
+├── prompts/            # 分阶段 AI Prompt
+├── checklists/         # Quality / Release Gate
+├── examples/           # FlowOps 等案例产物
+├── resources/          # 学习路线和外部资源
+└── assets/             # 图与示意资产
 ```
 
-四类内容分别解决：
+| 内容 | 回答的问题 |
+| --- | --- |
+| Handbook | 为什么以及应该怎样开发？ |
+| Templates | 关键 Artifact 应该怎样写？ |
+| Prompts | 怎样让 AI 协助产生/检查 Artifact？ |
+| Checklists | 怎样判断真的完成？ |
+| Examples | 企业案例怎样贯穿落地？ |
 
-  内容         回答的问题
-  ------------ ----------------------------
-  Handbook     应该怎样开发？
-  Templates    规范产物应该怎样写？
-  Prompts      怎样让 AI 协助完成？
-  Checklists   怎样判断真的完成？
-  Examples     一个真实企业案例怎样落地？
+## Reference Center
 
-## 7. AI Coding 成熟度模型
+当仓库内容越来越多时，优先使用：
 
-### Level 1 --- Prompt Driven
+- `handbook/30-reference/01-artifact-map.md` — 每种 Artifact 的职责与 Owner；
+- `02-role-learning-paths.md` — Developer / Architect / Product / Design / QA / SRE / Manager 阅读路线；
+- `03-glossary.md` — 全书术语；
+- `04-project-playbook.md` — 从 Gate 0 到 Gate 10 的完整项目路线；
+- `05-prompt-template-index.md` — Prompt / Template / Checklist 快速索引。
 
-``` text
-帮我开发一个督办系统。
+## Vibe Coding 成熟度
+
+本手册使用 L0–L5 模型：
+
+```text
+L0 Ad-hoc Chat Coding
+→ L1 Assisted Developer
+→ L2 Artifact-driven Delivery
+→ L3 Governed Agent Engineering
+→ L4 Production Feedback Loop
+→ L5 Adaptive AI Engineering System
 ```
 
-适合探索和原型，不适合作为复杂企业项目的长期工作方式。
+详见 `handbook/29-maturity/01-vibe-coding-maturity-model.md`。
 
-### Level 2 --- Context Driven
+成熟度不由“用了哪个模型”决定，而由业务事实是否可追踪、Agent 是否受控、完成是否有 Evidence、生产反馈是否回流决定。
 
-AI 在开发前读取项目上下文、业务规则、设计规范和架构约束。
+## 推荐第一次实践
 
-### Level 3 --- Spec Driven
+不要直接拿一个完整大型系统试验。选择一个真实、有限的 Vertical Slice，用 1–2 周完整走一遍：
 
-Feature 开发由 Feature Spec、Acceptance Criteria、API Contract、Design
-Spec 和 Architecture Constraints 驱动。
-
-### Level 4 --- Agentic Workflow
-
-``` text
-Explore → Plan → Implement → Test → Review → Fix → Verify
+```text
+Requirement
+→ Page Spec
+→ API / Domain
+→ Implementation Packet
+→ Codex
+→ Tests
+→ Review
+→ Release
 ```
 
-Human 主要负责 Decision、Approval、Risk 和 Acceptance。
+实践完成后，再把有效流程逐步固化为 Repository Instructions、Template、Checklist 和自动化 Gate。
 
-## 8. 如何阅读
+## Handbook Status
 
-### 路线 A：准备开发一个新系统
+当前已覆盖从需求发现到生产治理的完整主干，包括 Greenfield、Brownfield、Debugging、Refactoring、Migration、Multi-Agent、Security、Performance、Incident Response、Observability、Data、Integration、Metrics、Governance 与 Maturity。
 
-按 Stage 00 → 12 顺序阅读，并同步创建自己的项目 Artifact。
+项目仍会持续通过案例、交叉引用、模板和外部学习资源进行 Hardening，而不是无限增加概念章节。
 
-### 路线 B：已经在使用 Codex 等 Coding Agent
+---
 
-重点阅读：
-
-1.  Foundations
-2.  UI/UX
-3.  Context Engineering
-4.  Planning
-5.  AI Coding
-6.  Testing & Review
-
-### 路线 C：团队建立 AI 研发规范
-
-重点阅读：
-
-1.  Spec-Driven Development
-2.  Artifact Governance
-3.  Context Engineering
-4.  Architecture
-5.  Quality Gates
-6.  Verification Engineering
-7.  Team / Multi-Agent Workflow
-
-## 9. 外部学习资源原则
-
-手册中的资源分为：
-
--   **Level A --- Primary Source**：官方文档、正式标准、项目官方资料；
--   **Level B --- High Quality
-    Community**：高质量开源项目、工程团队文章、会议、大学课程；
--   **Level C --- Inspiration**：设计灵感、社区经验和案例参考。
-
-任何社区经验都不应自动升级为项目规范。
-
-## 10. 当前状态
-
-当前版本：`Foundation v1.0`
-
-当前 Sprint：
-
-> **Sprint 0 --- Handbook Foundation**
-
-首批 Artifact：
-
--   `README.md`
--   `MASTER-OUTLINE.md`
--   `CONTRIBUTING.md`
--   `examples/flowops/CASE-SPEC.md`
--   `resources/learning-roadmap.md`
-
-下一 Sprint：
-
-> **Sprint 1 --- Foundations：从 Vibe Coding 到 AI Native Software
-> Engineering**
-
-------------------------------------------------------------------------
-
-**核心信条**
-
-> Human defines intent. Spec defines truth. AI executes. Verification
-> closes the loop.
+> **Human defines intent. Artifacts define truth. AI executes within constraints. Verification closes the loop.**
