@@ -23,6 +23,23 @@
 | 企业推广 | `handbook/27-metrics/` → `29-maturity/` |
 | 查找模板/术语/完整流程 | `handbook/30-reference/` |
 
+## 如何使用
+
+当前仓库提供 Markdown 手册、模板、Prompt 和案例，**没有 `package.json`、可安装的 npm 包或可执行 CLI**。使用时获取仓库并将所需文件复制到业务项目，不需要运行 `npm install`。参考章节中提到的 `vibe context`、`vibe check` 等属于设计说明，不是当前可执行命令。
+
+```bash
+git clone https://github.com/mxpsept/vibe-coding-handbook.git
+cd vibe-coding-handbook
+```
+
+接下来按 [使用指南](USAGE.md) 完成第一次接入：
+
+1. 把 Agent 规则、任务包和验证报告模板复制到业务项目。
+2. 填写项目真实命令、架构边界和当前任务的验收标准。
+3. 在业务项目中让 Coding Agent 读取这些文件，先检查上下文，再实施并记录验证证据。
+
+从零启动项目可使用 [Enterprise Project Starter Kit](starter-kits/enterprise-project/README.md)；已有项目可从 [Codex Starter Kit](starter-kits/codex/README.md) 开始。
+
 ## 为什么需要这本手册
 
 最危险的 Vibe Coding 流程是：
