@@ -25,7 +25,49 @@
 
 ## 如何使用
 
-当前仓库提供 Markdown 手册、模板、Prompt 和案例，**没有 `package.json`、可安装的 npm 包或可执行 CLI**。使用时获取仓库并将所需文件复制到业务项目，不需要运行 `npm install`。参考章节中提到的 `vibe context`、`vibe check` 等属于设计说明，不是当前可执行命令。
+本项目包含两个配套仓库：本仓库 **`vibe-coding-handbook`** 提供手册、模板、Prompt 和案例；**[vibe-workspace-kit](https://github.com/mxpsept/vibe-workspace-kit)** 是已发布到 [npm 的 CLI 工具](https://www.npmjs.com/package/vibe-workspace-kit)，用于初始化工程上下文、协调多仓库和管理 Feature 开发流程。
+
+### 安装并使用 npm 工具
+
+需要 **Node.js 20+ 和 Git**。安装后使用 `vibe` 命令：
+
+```bash
+npm install --global vibe-workspace-kit
+vibe --version
+vibe --help
+```
+
+在新目录中初始化 Workspace（将示例地址替换为自己的业务仓库地址）：
+
+```bash
+mkdir my-product
+cd my-product
+git init
+vibe init --name my-product \
+  --repo frontend=git@github.com:your-org/product-web.git \
+  --repo backend=git@github.com:your-org/product-api.git
+vibe bootstrap
+vibe feature create TASK-001 --title "实现第一个功能" -r frontend -r backend
+```
+
+完善生成的 `feature-spec.md`、`implementation-packet.md` 以及项目与架构事实，人工审核后将 Feature status 从 `draft` 改为 `approved`，再执行：
+
+```bash
+vibe feature prepare TASK-001
+```
+
+看到 `READY FOR AI CODING` 后，让 Coding Agent 读取生成的 `.vibe/contexts/TASK-001/codex.md`，按任务包实施。完成测试并在 `verification.md` 中填写每条验收标准的实际证据后，执行：
+
+```bash
+vibe feature verify TASK-001
+vibe feature close TASK-001
+```
+
+完整操作、配置和已有 Workspace 升级方式见工具仓库的 [README](https://github.com/mxpsept/vibe-workspace-kit#readme)、[v0.2 工作流](https://github.com/mxpsept/vibe-workspace-kit/blob/main/docs/v0.2-workflow.md)和[企业案例](https://github.com/mxpsept/vibe-workspace-kit/blob/main/docs/examples/enterprise-supervision.md)。手册参考章节也包含未来设计，实际可用命令以工具的 `vibe --help` 和对应版本文档为准。
+
+### 直接使用手册与模板
+
+也可以独立使用本仓库中的 Markdown 文件，无需安装 npm 工具：
 
 ```bash
 git clone https://github.com/mxpsept/vibe-coding-handbook.git

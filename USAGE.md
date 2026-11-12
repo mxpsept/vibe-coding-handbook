@@ -1,6 +1,8 @@
 # 使用指南：把手册接入自己的项目
 
-本仓库是工程方法和文件模板库，当前不提供 npm 包、组件 API、自动初始化或 CLI。只阅读时无需 Node.js；执行下面的复制步骤需要 Git 和 Bash。业务项目的运行环境由业务项目自己决定。
+本仓库是工程方法和文件模板库。配套 npm 工具是独立仓库 [vibe-workspace-kit](https://github.com/mxpsept/vibe-workspace-kit)，可运行 `npm install --global vibe-workspace-kit` 安装（需要 Node.js 20+ 和 Git），然后使用 `vibe --help` 查看命令。安装与 Feature 快速入门见 [README](README.md#如何使用)，完整流程见 [工具工作流文档](https://github.com/mxpsept/vibe-workspace-kit/blob/main/docs/v0.2-workflow.md)。
+
+下面介绍不安装 CLI、直接复制模板的接入方式。只阅读时无需 Node.js；执行下面的复制步骤需要 Git 和 Bash。业务项目的运行环境由业务项目自己决定。
 
 ## 1. 获取手册
 
@@ -98,7 +100,7 @@ cp -i "$handbook_dir/starter-kits/codex/verification-report.example.md" docs/fea
 
 ## 5. 常见问题
 
-**应该执行哪个 npm / npx 命令？** 当前仓库没有 npm 包和可执行入口，无需安装依赖。参考章节中的 `vibe generate/context`、`vibe check` 等描述的是工具设计，不代表本仓库已实现这些命令。
+**应该执行哪个 npm / npx 命令？** 配套工具的安装命令是 `npm install --global vibe-workspace-kit`，安装后执行 `vibe --help`。仅复制本仓库模板时无需安装依赖。参考章节包含未来设计，实际可用命令以工具帮助和对应版本文档为准。
 
 **Agent.md 在哪里？** 当前仓库提供的是 `templates/agent/AGENTS.example.md` 和 `starter-kits/codex/AGENTS.example.md` 两份示例，没有根目录的 `Agent.md` 或 `AGENTS.md`。接入时将选用的示例修改为业务仓库根目录的 `AGENTS.md`。
 
